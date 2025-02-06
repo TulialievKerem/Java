@@ -1,3 +1,7 @@
+/**
+ * @version 1.0
+ * @author Tulialiev Kerem
+ */
 package src.utils;
 
 import java.time.LocalTime;
@@ -8,6 +12,9 @@ import src.models.Customer;
 import src.models.Passager;
 import src.models.Plane;
 
+/**
+ * Клас AppSystem описує систему обробки інформації про клієнтів та рейси.
+ */
 public class AppSystem {
   public static Customer customer;
   private static ArrayList<String> messageList = new ArrayList<>();
@@ -15,6 +22,10 @@ public class AppSystem {
   private static double flightDistance;
   private static LocalTime flightTime;
 
+   /**
+   * Надсилає інформацію про клієнта.
+   * @param customer Об'єкт клієнта, що містить всю необхідну інформацію.
+   */
   public static void sendCustomerInfo (Customer customer) {
     AppSystem.customer = customer;
     AppSystem.message = new Message(customer);
@@ -30,6 +41,10 @@ public class AppSystem {
     message.sendMessage(messages);
   }
 
+  /**
+   * Обчислює дистанцію польоту.
+   * @return Дистанція польоту в кілометрах.
+   */
   public static double calculateFlightDistance () {
     int flightLongX = customer.finalCity.coordinateX - customer.startCity.coordinateX;
     int flightLongY = customer.finalCity.coordinateY - customer.startCity.coordinateY;
@@ -37,16 +52,28 @@ public class AppSystem {
     return Math.round(flightLong * 10.0) / 10.0;
   }
 
+   /**
+   * Обчислює час польоту.
+   * @return Час польоту у форматі LocalTime.
+   */
   public static LocalTime calculateFlightTime () {
     double minutes = AppSystem.calculateFlightDistance() * 1.5;
     int hours = (int) (minutes / 60);
     int remainingMinutes = (int) (minutes % 60);
     int seconds = (int) ((minutes - (hours * 60 + remainingMinutes)) * 60);
+
+    LocalTime time;
+    do {
+        time = LocalTime.of(hours, remainingMinutes, seconds);
+    } while (time.getSecond() < 0); 
     
-    LocalTime time = LocalTime.of(hours, remainingMinutes, seconds);
     return time;
   }
 
+   /**
+   * Перевіряє інформацію про літак та наявність місць.
+   * @return HashMap з інформацією про кількість звичайних і VIP місць та кількість дітей.
+   */
   private static HashMap<String, Object> checkPlaneInfo () {
     HashMap<String, Object> result = new HashMap<>();
 
@@ -92,6 +119,10 @@ public class AppSystem {
       return result;
     }
 
+  /**
+   * Обчислює кінцеву вартість польоту.
+   * @return Кінцева вартість польоту.
+   */
   public static double calculateFinalPrice () {
     HashMap<String, Object> info = AppSystem.checkPlaneInfo();
     double totalPrice = 0;
@@ -100,8 +131,26 @@ public class AppSystem {
     double vipPlacesCost = (int) info.get("occupingVipPlaceAmount") * 9500;
     double childrenMarkupCost = (int) info.get("childrenAmount") * 1750;
     double flightDistanceCost = AppSystem.flightDistance * 20;
+    
+    double discount = 1;
+    switch (customer.name) {
+      case "Anton":
+        discount = 0.8;
+        break;
 
-    totalPrice = placesConst + vipPlacesCost + childrenMarkupCost + flightDistanceCost;
+      case "Anna":
+        discount = 0.9;
+        break;
+
+      case "Oleg":
+        discount = 0.75;
+        break;
+    
+      default:
+        break;
+    }
+    AppSystem.messageList.add(customer.name + ", ваше имя входит в список имен, получающих скидку! Ваша скидка: "+(1 - discount)+"%");
+    totalPrice = (placesConst + vipPlacesCost + childrenMarkupCost + flightDistanceCost) * discount;
     return Math.round(totalPrice * 10.0) / 10.0;
   }
 }
