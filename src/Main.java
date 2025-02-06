@@ -1,3 +1,7 @@
+/**
+ * @version 1.0
+ * @author Tulialiev Kerem
+ */
 package src;
 
 import java.util.ArrayList;
@@ -9,6 +13,9 @@ import src.models.Customer;
 import src.models.Passager;
 import src.utils.AppSystem;
 
+/**
+ * Клас Main забезпечує основну точку входу для програми, яка взаємодіє з користувачем та обробляє інформацію про клієнта та його подорож.
+ */
 public class Main {
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
