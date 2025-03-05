@@ -4,10 +4,12 @@
  */
 package src.models;
 
+import src.AssistClass;
+
 /**
  * Клас Passager описує пасажира, його характеристики та інформацію про багаж.
  */
-public class Passager {
+public class Passager extends AssistClass{
   public static int nextId;
   public int id;
   public double bagWeight;

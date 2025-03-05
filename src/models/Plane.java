@@ -9,12 +9,13 @@ import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import src.AssistClass;
 import src.config.Cities;
 
 /**
  * Клас Plane описує літак, його характеристики та інформацію про рейс.
  */
-public class Plane {
+public class Plane extends AssistClass {
   public static int nextId;
   public int id;
   public String name;

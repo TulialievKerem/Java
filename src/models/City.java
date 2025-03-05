@@ -4,10 +4,12 @@
  */
 package src.models;
 
+import src.AssistClass;
+
 /**
  * Клас City описує місто та його характеристики.
  */
-public class City {
+public class City extends AssistClass {
   public static int nextId;
   public int id = 1;
   public String name;

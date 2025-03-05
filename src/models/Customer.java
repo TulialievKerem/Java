@@ -4,12 +4,13 @@
  */
 package src.models;
 
+import src.AssistClass;
 import src.config.Cities;
 
 /**
  * Клас Customer описує клієнта, його характеристику та інформацію про пасажирів.
  */
-public class Customer {
+public class Customer extends AssistClass {
   public static int nextId;
   public int id;
   public String name;
