@@ -27,18 +27,22 @@ public class AppSystem {
    * @param customer Об'єкт клієнта, що містить всю необхідну інформацію.
    */
   public static void sendCustomerInfo (Customer customer) {
-    AppSystem.customer = customer;
-    AppSystem.message = new Message(customer);
-    AppSystem.flightDistance = AppSystem.calculateFlightDistance();
-    AppSystem.flightTime = AppSystem.calculateFlightTime();
-
-    double totalPrice = AppSystem.calculateFinalPrice();
-
-    messageList.add("Конечная цена за билет: "+totalPrice+" грн.");
-
-    String[] messages = new String[messageList.size()];
-    messages = messageList.toArray(messages);
-    message.sendMessage(messages);
+    try {
+      AppSystem.customer = customer;
+      AppSystem.message = new Message(customer);
+      AppSystem.flightDistance = AppSystem.calculateFlightDistance();
+      AppSystem.flightTime = AppSystem.calculateFlightTime();
+  
+      double totalPrice = AppSystem.calculateFinalPrice();
+  
+      messageList.add("Конечная цена за билет: "+totalPrice+" грн.");
+  
+      String[] messages = new String[messageList.size()];
+      messages = messageList.toArray(messages);
+      message.sendMessage(messages);
+    } catch (NullPointerException e) {
+      System.err.println("Помилка: NullPointerException. Об'єкт customer дорівнює null: "+e.getMessage());
+    }
   }
 
   /**
@@ -46,10 +50,10 @@ public class AppSystem {
    * @return Дистанція польоту в кілометрах.
    */
   public static double calculateFlightDistance () {
-    int flightLongX = customer.finalCity.coordinateX - customer.startCity.coordinateX;
-    int flightLongY = customer.finalCity.coordinateY - customer.startCity.coordinateY;
-    double flightLong = Math.sqrt(Math.pow(flightLongX, 2) + Math.pow(flightLongY, 2));
-    return Math.round(flightLong * 10.0) / 10.0;
+      int flightLongX = customer.finalCity.coordinateX - customer.startCity.coordinateX;
+      int flightLongY = customer.finalCity.coordinateY - customer.startCity.coordinateY;
+      double flightLong = Math.sqrt(Math.pow(flightLongX, 2) + Math.pow(flightLongY, 2));
+      return Math.round(flightLong * 10.0) / 10.0;
   }
 
    /**

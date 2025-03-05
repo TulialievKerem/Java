@@ -24,12 +24,16 @@ public class Cities {
    */
   public static City getCityById (int cityId) {
     City city = null;
-    for (int i = 0; i < Cities.cityList.length; i++) {
-      City cityEl = Cities.cityList[i];
-      if(cityEl.id == cityId) {
-        city = cityEl;
-        break;
+    try {
+      for (int i = 0; i < Cities.cityList.length; i++) {
+        City cityEl = Cities.cityList[i];
+        if(cityEl.id == cityId) {
+          city = cityEl;
+          break;
+        }
       }
+    } catch (ArrayIndexOutOfBoundsException e) {
+      System.err.println("Помилка: ArrayIndexOutOfBoundsException. Коректні межі масиву: 0 - " + (cityList.length - 1) + ". Звернення до індексу: " + e.getMessage());
     }
     return city;
   }
