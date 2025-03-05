@@ -1,6 +1,6 @@
 package src;
 
-public abstract class AssistClass {
+public abstract class AssistClass implements Cloneable{
     // Метод equals
     @Override
     public boolean equals(Object obj) {
@@ -40,5 +40,5 @@ public abstract class AssistClass {
       }
       
       return result;
-  }
+    }
 }
